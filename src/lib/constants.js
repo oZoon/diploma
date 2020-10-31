@@ -1,5 +1,6 @@
+const hostname = window && window.location && window.location.hostname;
+export const URL_SITE = `http://${hostname}:8080`;
 export const VERSION = '4.0';
-export const URL_SITE = 'http://localhost:8080';
 export const ACCESS_KEY = 'KVx67XvmzAv0NWFzGhl02RT3YJ0kXfNhhffCmc6V2Vk';
 export const SECRET = 'NEbVoZN0xAL1MJkl9GCIfHmud75H71MjACB2fo0UdiU';
 
