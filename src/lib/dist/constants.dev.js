@@ -4,8 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.LIST_PHOTOS_ERROR_LIST_LOAD = exports.LIST_PHOTOS_SUCCESS_LIST_LOAD = exports.LIST_PHOTOS_ERROR_JSON_LOAD = exports.LIST_PHOTOS_SUCCESS_JSON_LOAD = exports.LIST_PHOTOS_START_JSON_LOAD = exports.RANDOM_HIDE = exports.RANDOM_SHOW = exports.RANDOM_ERROR_PHOTO_LOAD = exports.RANDOM_SUCCESS_PHOTO_LOAD = exports.RANDOM_ERROR_JSON_LOAD = exports.RANDOM_SUCCESS_JSON_LOAD = exports.RANDOM_START_JSON_LOAD = exports.REQUEST_SEARCH = exports.AUTH_UPDATE = exports.LOG_OUT = exports.LOG_IN = exports.URL_DIPLOMA = exports.URL_AUTHOR = exports.URL_HOME = exports.SECRET = exports.ACCESS_KEY = exports.VERSION = exports.URL_SITE = void 0;
-var hostname = window && window.location && window.location.hostname;
-var URL_SITE = "http://".concat(hostname, ":8080");
+
+var URL_SITE = function URL_SITE() {
+  var hostname = window && window.location && window.location.hostname;
+
+  if (hostname == 'localhost') {
+    return 'http://localhost:8080';
+  } else {
+    return "http://".concat(hostname);
+  }
+};
+
 exports.URL_SITE = URL_SITE;
 var VERSION = '4.0';
 exports.VERSION = VERSION;

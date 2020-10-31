@@ -1,6 +1,5 @@
 /node_modules/
 .git
-/build/
 *.jso
-webpack.config.js
 /.vscode/
+/dist/

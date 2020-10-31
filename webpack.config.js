@@ -10,9 +10,6 @@ let config = {
     devServer: {
         overlay: true,
         historyApiFallback: true,
-        host: 'localhost',
-        port: 8080,
-        public: 'localhost:8080',
     },
     module: {
         rules: [{
