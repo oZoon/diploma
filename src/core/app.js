@@ -24,7 +24,7 @@ import {
 let App = (props) => {
     const hostname = window && window.location && window.location.hostname;
     console.log(hostname);
-    // console.log(props);
+    console.log(props);
     const {
         onLogIn,
         onLogOut,
