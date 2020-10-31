@@ -3,3 +3,4 @@
 /build/
 *.jso
 webpack.config.js
+/.vscode/
