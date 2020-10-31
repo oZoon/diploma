@@ -22,6 +22,8 @@ import {
 // /!q@q$q&q*q(q)q-q=q:q
 
 let App = (props) => {
+    const hostname = window && window.location && window.location.hostname;
+    console.log(hostname);
     // console.log(props);
     const {
         onLogIn,
