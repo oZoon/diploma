@@ -11,17 +11,14 @@ import { Route, Switch } from 'react-router-dom';
 
 const Content = (props) => {
     // console.log('props in Content: ', props);
-
     const {
-        currentPath,
-        currentSearch,
-        unsplash,
         photosGetRandomPhoto,
         onListPhotos,
+        photosListPhotos,
     } = props;
     const propsHome = {
         onListPhotos,
-        unsplash,
+        photosListPhotos,
     }
     const style = !photosGetRandomPhoto.show ? { display: 'block' } : { display: 'none' };
     return (
@@ -39,7 +36,7 @@ const Content = (props) => {
             </Switch>
         </div>
     );
-    
+
 };
 
 export default Content;
@@ -48,4 +45,3 @@ export default Content;
 // http://jsfiddle.net/Symphony/mgx8qsgx/
 // https://codesandbox.io/s/w3w89k7x8?file=/src/index.js
 // https://www.npmjs.com/package/react-infinite-scroll-component
-

@@ -3,18 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LIST_PHOTOS_ERROR_LIST_LOAD = exports.LIST_PHOTOS_SUCCESS_LIST_LOAD = exports.LIST_PHOTOS_ERROR_JSON_LOAD = exports.LIST_PHOTOS_SUCCESS_JSON_LOAD = exports.LIST_PHOTOS_START_JSON_LOAD = exports.RANDOM_HIDE = exports.RANDOM_SHOW = exports.RANDOM_ERROR_PHOTO_LOAD = exports.RANDOM_SUCCESS_PHOTO_LOAD = exports.RANDOM_ERROR_JSON_LOAD = exports.RANDOM_SUCCESS_JSON_LOAD = exports.RANDOM_START_JSON_LOAD = exports.REQUEST_SEARCH = exports.AUTH_UPDATE = exports.LOG_OUT = exports.LOG_IN = exports.URL_DIPLOMA = exports.URL_AUTHOR = exports.URL_HOME = exports.SECRET = exports.ACCESS_KEY = exports.VERSION = exports.URL_SITE = void 0;
+exports.LIST_PHOTOS_ERROR_LIST_LOAD = exports.LIST_PHOTOS_SUCCESS_LIST_LOAD = exports.LIST_PHOTOS_ERROR_JSON_LOAD = exports.LIST_PHOTOS_SUCCESS_JSON_LOAD = exports.LIST_PHOTOS_START_JSON_LOAD = exports.RANDOM_HIDE = exports.RANDOM_SHOW = exports.RANDOM_ERROR_PHOTO_LOAD = exports.RANDOM_SUCCESS_PHOTO_LOAD = exports.RANDOM_ERROR_JSON_LOAD = exports.RANDOM_SUCCESS_JSON_LOAD = exports.RANDOM_START_JSON_LOAD = exports.LOG_OUT = exports.LOG_IN_ERROR = exports.LOG_IN_SUCCESS_JSON_PROFILE_LOAD = exports.LOG_IN_SUCCESS_JSON_TOKEN_LOAD = exports.LOG_IN_SUCCESS_CODE = exports.LOG_IN_START = exports.URL_DIPLOMA = exports.URL_AUTHOR = exports.URL_HOME = exports.SECRET = exports.ACCESS_KEY = exports.VERSION = exports.URL_SITE = void 0;
+var url_site = 'http://localhost:8080';
+var hostname = window && window.location && window.location.hostname;
 
-var URL_SITE = function URL_SITE() {
-  var hostname = window && window.location && window.location.hostname;
+if (hostname != 'localhost') {
+  url_site = "http://".concat(hostname);
+}
 
-  if (hostname == 'localhost') {
-    return 'http://localhost:8080';
-  } else {
-    return "http://".concat(hostname);
-  }
-};
-
+var URL_SITE = url_site;
 exports.URL_SITE = URL_SITE;
 var VERSION = '4.0';
 exports.VERSION = VERSION;
@@ -28,14 +25,18 @@ var URL_AUTHOR = '/author';
 exports.URL_AUTHOR = URL_AUTHOR;
 var URL_DIPLOMA = '/diploma';
 exports.URL_DIPLOMA = URL_DIPLOMA;
-var LOG_IN = 'LOG_IN';
-exports.LOG_IN = LOG_IN;
+var LOG_IN_START = 'LOG_IN_START';
+exports.LOG_IN_START = LOG_IN_START;
+var LOG_IN_SUCCESS_CODE = 'LOG_IN_SUCCESS_CODE';
+exports.LOG_IN_SUCCESS_CODE = LOG_IN_SUCCESS_CODE;
+var LOG_IN_SUCCESS_JSON_TOKEN_LOAD = 'LOG_IN_SUCCESS_JSON_TOKEN_LOAD';
+exports.LOG_IN_SUCCESS_JSON_TOKEN_LOAD = LOG_IN_SUCCESS_JSON_TOKEN_LOAD;
+var LOG_IN_SUCCESS_JSON_PROFILE_LOAD = 'LOG_IN_SUCCESS_JSON_PROFILE_LOAD';
+exports.LOG_IN_SUCCESS_JSON_PROFILE_LOAD = LOG_IN_SUCCESS_JSON_PROFILE_LOAD;
+var LOG_IN_ERROR = 'LOG_IN_ERROR';
+exports.LOG_IN_ERROR = LOG_IN_ERROR;
 var LOG_OUT = 'LOG_OUT';
 exports.LOG_OUT = LOG_OUT;
-var AUTH_UPDATE = 'AUTH_UPDATE';
-exports.AUTH_UPDATE = AUTH_UPDATE;
-var REQUEST_SEARCH = 'REQUEST_SEARCH';
-exports.REQUEST_SEARCH = REQUEST_SEARCH;
 var RANDOM_START_JSON_LOAD = 'RANDOM_START_JSON_LOAD';
 exports.RANDOM_START_JSON_LOAD = RANDOM_START_JSON_LOAD;
 var RANDOM_SUCCESS_JSON_LOAD = 'RANDOM_SUCCESS_JSON_LOAD';

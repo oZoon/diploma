@@ -1,9 +1,11 @@
 import Records from "lib/records";
 import {
-    LOG_IN,
+    LOG_IN_START,
+    LOG_IN_SUCCESS_CODE,
+    LOG_IN_SUCCESS_JSON_TOKEN_LOAD,
+    LOG_IN_SUCCESS_JSON_PROFILE_LOAD,
+    LOG_IN_ERROR,
     LOG_OUT,
-    AUTH_UPDATE,
-    REQUEST_SEARCH,
 
     RANDOM_START_JSON_LOAD,
     RANDOM_SUCCESS_JSON_LOAD,
@@ -27,13 +29,11 @@ if (init === null) {
     init = {};
     init['user'] = {
         isLoggedIn: false,
+        state: false,
+        jsonToken: {},
+        jsonProfile: {},
+        error: false,
         code: false,
-        access_token: false,
-
-        first_name: false,
-        profile_image: false,
-        id: false,
-        username: false,
     };
     init['search'] = {
         searchHistory: [],
@@ -84,46 +84,53 @@ function user(state, action) {
     // console.log('state in userReducer: ', state);
     const newState = JSON.parse(JSON.stringify(state));
     switch (action.type) {
-        case AUTH_UPDATE:
-            // console.log('in AUTH_UPDATE: ', action);
-            newState.isLoggedIn = true;
-            newState.code = action.userData.code;
-            newState.access_token = action.userData.access_token;
-
-            newState.first_name = action.userData.first_name;
-            newState.profile_image = action.userData.profile_image;
-            newState.id = action.userData.id;
-            newState.username = action.userData.username;
+        case LOG_IN_START:
+            newState.state = true;
             return newState;
-        case LOG_IN:
-            action.unsplash.auth();
+        case LOG_IN_SUCCESS_CODE:
+            newState.state = true;
+            newState.code = action.code;
+            return newState;
+        case LOG_IN_SUCCESS_JSON_TOKEN_LOAD:
+            newState.state = true;
+            newState.jsonToken = action.json;
+            return newState;
+        case LOG_IN_SUCCESS_JSON_PROFILE_LOAD:
+            newState.isLoggedIn = true;
+            newState.state = false;
+            newState.jsonProfile = action.json;
+            console.log(newState);
+            return newState;
+        case LOG_IN_ERROR:
+            newState.isLoggedIn = false;
+            newState.state = false;
+            newState.error = action.err;
             return newState;
         case LOG_OUT:
             newState.isLoggedIn = false;
+            newState.state = false;
+            newState.jsonToken = {};
+            newState.jsonProfile = {};
+            newState.error = false;
             newState.code = false;
-            newState.access_token = false;
-
-            newState.first_name = false;
-            newState.profile_image = false;
-            newState.id = false;
-            newState.username = false;
             return newState;
         default:
             return newState;
     }
 }
 function search(state, action) {
-    const newState = JSON.parse(JSON.stringify(state));
-    switch (action.type) {
-        case REQUEST_SEARCH:
-            newState.currentSearchString = action.text;
-            const searchResult = action.text;
-            // const searchResult = action.unsplash.requestSearch(action.text);
-            newState.searchHistory.push([action.text, searchResult]);
-            return newState;
-        default:
-            return newState;
-    }
+    return state;
+    // const newState = JSON.parse(JSON.stringify(state));
+    // switch (action.type) {
+    //     case REQUEST_SEARCH:
+    //         newState.currentSearchString = action.text;
+    //         const searchResult = action.text;
+    //         // const searchResult = action.unsplash.requestSearch(action.text);
+    //         newState.searchHistory.push([action.text, searchResult]);
+    //         return newState;
+    //     default:
+    //         return newState;
+    // }
 }
 function photosGetRandomPhoto(state, action) {
     const newState = JSON.parse(JSON.stringify(state));
@@ -160,7 +167,7 @@ function photosGetRandomPhoto(state, action) {
             return newState;
     }
 }
-function photosListPhotos(state, action){
+function photosListPhotos(state, action) {
     const newState = JSON.parse(JSON.stringify(state));
     switch (action.type) {
         case LIST_PHOTOS_START_JSON_LOAD:

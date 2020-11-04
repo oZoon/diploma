@@ -4,33 +4,28 @@ import { connect } from "react-redux";
 
 import Header from "containers/header";
 import Content from "containers/content";
-import Unsplash from "lib/unsplashWrap";
 import Background from 'content/background';
 import LoaderAnimation from 'content/loaderGif';
+import { checkCode } from 'lib/utils';
 
 import {
     logIn,
     logOut,
-    authUpdate,
-    requestSearch,
     getRandomPhoto,
     randomMouseOver,
     randomMouseOut,
     listPhotos,
+    continueLogIn,
 } from "core/actions";
 
 // /!q@q$q&q*q(q)q-q=q:q
 
 let App = (props) => {
-    const hostname = window && window.location && window.location.hostname;
-    console.log(hostname);
     console.log(props);
     const {
         onLogIn,
         onLogOut,
         user,
-        authUpdate,
-        onSearchString,
         location,
         history,
         onGetRandomPhoto,
@@ -39,6 +34,7 @@ let App = (props) => {
         onRandomMouseOver,
         onRandomMouseOut,
         onListPhotos,
+        continueLogIn,
     } = props;
 
     const [currentPath, setCurrentPath] = useState(location.pathname);
@@ -49,28 +45,23 @@ let App = (props) => {
         // console.log('new search: ', search);
         setCurrentPath(pathname);
         setCurrentSearch(search);
+        const code = checkCode();
+        if(code) continueLogIn(code, history);
     }, [location.pathname, location.search]);
-
-    const unsplash = new Unsplash(user.access_token);
-    unsplash.logInUpdate(authUpdate, user);
 
     const propsHeader = {
         onLogIn,
         onLogOut,
         user,
-        unsplash,
-        onSearchString,
         onGetRandomPhoto,
         onRandomMouseOver,
         onRandomMouseOut,
         history,
     };
     const propsContent = {
-        currentPath,
-        currentSearch,
-        unsplash,
         photosGetRandomPhoto,
         onListPhotos,
+        photosListPhotos,
     }
     const propsBackground = {
         imgUrl: photosGetRandomPhoto.imgUrl,
@@ -79,6 +70,7 @@ let App = (props) => {
     const propsLoaderAnimation = {
         state:
             [
+                user.state,
                 photosGetRandomPhoto.state,
                 photosListPhotos.state,
             ]
@@ -100,21 +92,19 @@ const mapStateToProps = (state) => {
         search: state.search,
         photosGetRandomPhoto: state.photosGetRandomPhoto,
         photosListPhotos: state.photosListPhotos,
-        // ownProps,
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        onLogIn: (unsplash) => dispatch(logIn(unsplash)),
-        onLogOut: (unsplash) => dispatch(logOut(unsplash)),
-        authUpdate: (userData) => dispatch(authUpdate(userData)),
+        onLogIn: () => dispatch(logIn()),
+        continueLogIn: (code, history) => dispatch(continueLogIn(code, history)),
+        onLogOut: (history) => dispatch(logOut(history)),
 
-        onSearchString: (text, unsplash) => dispatch(requestSearch(text, unsplash)),
-        onGetRandomPhoto: (unsplash) => dispatch(getRandomPhoto(unsplash)),
+        onGetRandomPhoto: () => dispatch(getRandomPhoto()),
         onRandomMouseOver: () => dispatch(randomMouseOver()),
         onRandomMouseOut: () => dispatch(randomMouseOut()),
 
-        onListPhotos: (unsplash) => dispatch(listPhotos(unsplash)),
+        onListPhotos: () => dispatch(listPhotos()),
     };
 };
 

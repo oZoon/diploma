@@ -10,28 +10,23 @@ const Header = (props) => {
         onLogIn,
         onLogOut,
         user,
-        unsplash,
-        onSearchString,
-        history,
         onGetRandomPhoto,
         onRandomMouseOver,
         onRandomMouseOut,
+        history,
     } = props;
 
     const propsAuth = {
         onLogIn,
         onLogOut,
         user,
-        unsplash,
+        history,
     };
     const propsSearch = {
-        onSearchString,
         user,
-        unsplash,
         history,
     }
     const propsStaticPages = {
-        unsplash,
         onGetRandomPhoto,
         onRandomMouseOver,
         onRandomMouseOut,

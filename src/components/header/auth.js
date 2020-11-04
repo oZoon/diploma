@@ -2,7 +2,13 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import UserMenu from 'lib/outSide';
 
-const Auth = ({ onLogIn, onLogOut, user, unsplash }) => {
+const Auth = (props) => {
+    const {
+        onLogIn,
+        onLogOut,
+        user,
+        history,
+    } = props;
     const [display, setDisplay] = React.useState({ display: 'none' });
 
     const handleClick = (e) => {
@@ -21,8 +27,8 @@ const Auth = ({ onLogIn, onLogOut, user, unsplash }) => {
     if (user.isLoggedIn) {
         result = (
             <button className="header-logged-button" onClick={(e) => handleClick(e)}>
-                <img src={user.profile_image} className="header-logged-avatar" />
-                {user.first_name}
+                <img src={user.jsonProfile.profile_image.medium} className="header-logged-avatar" />
+                {user.jsonProfile.first_name}
                 <UserMenu onClick={(e) => handleClose(e)}>
                     <ul style={display} className="header-logged-menu" onClick={(e) => handleClose(e)}>
                         <li className="header-logged-menu-item" onClick={(e) => handleClose(e)}>
@@ -36,7 +42,7 @@ const Auth = ({ onLogIn, onLogOut, user, unsplash }) => {
                         </Link>
                         </li>
                         <li className="header-logged-menu-item" onClick={(e) => handleClose(e)}>
-                            <span className="header-logged-menu-link" onClick={() => onLogOut(unsplash)}>
+                            <span className="header-logged-menu-link" onClick={() => onLogOut(history)}>
                                 Выход
                         </span>
                         </li>
@@ -47,7 +53,7 @@ const Auth = ({ onLogIn, onLogOut, user, unsplash }) => {
         );
     } else {
         result = (
-            <button className="header-login-button" onClick={() => { onLogIn(unsplash) }}>
+            <button className="header-login-button" onClick={() => { onLogIn() }}>
                 Вход
             </button>
         );

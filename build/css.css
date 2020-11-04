@@ -1,8 +1,171 @@
 html,
 body {
+    width: 100%;
+    height: 100%;
+}
+body {
+    overflow-y: scroll;
+}
+img,
+div,
+span,
+html,
+body {
     margin: 0;
     padding: 0;
+    border-spacing: 0;
+    border: 0;
+    font-size: 0;
+    line-height: 0;
 }
+
+.content-column {
+    z-index: 2;
+    width: 960px;
+    margin: 0 auto;
+
+    column-width: 300px;
+    column-count: 3;
+    column-gap: 30px;
+    /* -webkit-column-width: 300px; */
+    /* -moz-column-width: 300px; */
+    /* -webkit-column-count: 3; */
+    /* -moz-column-count: 3; */
+    /* -webkit-column-gap: 30px; */
+    /* -moz-column-gap: 30px; */
+}
+.content-card {
+    position: relative;
+    width: 294px;
+    margin-bottom: 30px;
+    border: 3px solid white;
+    border-radius: 10px;
+    /* box-shadow: 0 0 5px 5px rgba(0,0,0,.8); */
+}
+.card-image {
+    width: 294px;
+    height: auto;
+    border-radius: 10px;
+}
+.card-active-elements {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    border-radius: 10px;
+}
+.card-active-elements:hover {
+    opacity: 1;
+    box-shadow: inset 0 0 150px 75px rgba(0,0,0,.3);
+}
+.card-username {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-family: Tahoma;
+    font-size: 15px;
+    font-weight: 600;
+}
+.card-avatar {
+    margin-right: 8px;
+    border-radius: 50%;
+}
+.card-username-text {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    height: 32px;
+    color: white;
+}
+.card-username-name {
+    height: 20px;
+    color: white;
+    font-family: Tahoma;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16px;
+}
+.card-username-nickname {
+    height: 13px;
+    color: rgb(209, 209, 209);
+    font-family: Tahoma;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 10px;
+}
+.card-username-nickname:hover {
+    color: white;
+}
+.card-download-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 32px;
+    cursor: pointer;
+    text-align: center;
+    border: 0;
+    border-radius: 5px;
+    background: white;
+
+    fill: gray;
+}
+
+.card-like-button {
+    position: absolute;
+    top: 10px;
+    right: 52px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    border: 0;
+    border-radius: 5px;
+    background: white;
+
+    fill: gray;
+}
+
+.card-collection-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    border: 0;
+    border-radius: 5px;
+    background: white;
+
+    fill: gray;
+}
+.card-download-button:hover,
+.card-like-button:hover,
+.card-collection-button:hover {
+    fill: black;
+}
+
+.card-svg {
+    width: 16px;
+    height: 32px;
+}
+
 
 .wrapper-root {
     width: 100%;
@@ -10,8 +173,12 @@ body {
 }
 
 .back-root {
-    position: absolute;
+    position: fixed;
     z-index: -10;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 0 0;
@@ -37,6 +204,7 @@ body {
 
 .header {
     position: fixed;
+    z-index: 4;
     top: 8px;
     right: 8px;
     left: 8px;
@@ -84,6 +252,9 @@ body {
     cursor: pointer;
     text-decoration: none;
     color: rgb(0, 0, 0);
+    font-family: Tahoma;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 .header-static-link:hover {
@@ -122,7 +293,7 @@ body {
 .header-search-input:focus,
 .header-search-input:active,
 .header-search-button:focus,
-.header-search-button:active 
+.header-search-button:active
 .header-login-button:focus,
 .header-login-button:active,
 .header-logged-button:focus,
@@ -218,7 +389,7 @@ body {
 
 .content-empty {
     display: block;
-    height: 50px;
+    height: 70px;
 }
 
 .content-gif {
@@ -230,6 +401,3 @@ body {
     margin-top: -50px;
     margin-left: -50px;
 }
-
-
-
