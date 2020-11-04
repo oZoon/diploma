@@ -34,15 +34,21 @@ function Home(props) {
         )
     }
 
-    return (
-        <div className="content-plug">
-            <h5>Home Page</h5>
+    let getRandomPhotoLink = null;
+    if (user.isLoggedIn) {
+        getRandomPhotoLink = (
             <div
                 className="header-static-link"
                 onClick={() => onListPhotos(user)}
             >
                 загрузить 20 случайных изображений
             </div>
+        )
+    }
+    return (
+        <div className="content-plug">
+            <h5>Home Page</h5>
+            {getRandomPhotoLink}
             {codeListPhotos}
         </div>
     )

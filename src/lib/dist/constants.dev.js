@@ -13,7 +13,7 @@ if (hostname != 'localhost') {
 
 var URL_SITE = url_site;
 exports.URL_SITE = URL_SITE;
-var VERSION = '4.0.5';
+var VERSION = '4.0.6';
 exports.VERSION = VERSION;
 var ACCESS_KEY = 'KVx67XvmzAv0NWFzGhl02RT3YJ0kXfNhhffCmc6V2Vk';
 exports.ACCESS_KEY = ACCESS_KEY;
