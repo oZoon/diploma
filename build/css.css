@@ -22,7 +22,7 @@ body {
 .content-column {
     z-index: 2;
     width: 960px;
-    margin: 0 auto;
+    margin: 10px auto;
 
     column-width: 300px;
     column-count: 3;
@@ -36,16 +36,15 @@ body {
 }
 .content-card {
     position: relative;
-    width: 294px;
+    width: 300px;
     margin-bottom: 30px;
-    border: 3px solid white;
-    border-radius: 10px;
-    /* box-shadow: 0 0 5px 5px rgba(0,0,0,.8); */
 }
 .card-image {
-    width: 294px;
+    width: 300px;
     height: auto;
-    border-radius: 10px;
+    border-radius: 6px;
+    outline: 2px solid black;
+    outline-offset: -2px;
 }
 .card-active-elements {
     position: absolute;
@@ -54,7 +53,6 @@ body {
     bottom: 0;
     left: 0;
     opacity: 0;
-    border-radius: 10px;
 }
 .card-active-elements:hover {
     opacity: 1;
@@ -394,10 +392,16 @@ body {
 
 .content-gif {
     position: absolute;
+    z-index: 100;
     top: 50%;
     left: 50%;
     width: 100px;
     height: 100px;
     margin-top: -50px;
     margin-left: -50px;
+}
+
+.content-plug {
+    font-family: Tahoma;
+    font-size: 15px;
 }

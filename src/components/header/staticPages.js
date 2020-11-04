@@ -14,7 +14,7 @@ const StaticPages = (props) => {
         result = (
             <div
                 className="header-static-link"
-                onClick={() => onGetRandomPhoto()}
+                onClick={() => onGetRandomPhoto(user)}
                 onMouseOver={() => onRandomMouseOver()}
                 onMouseOut={() => onRandomMouseOut()}
             >

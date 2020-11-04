@@ -8,20 +8,20 @@ import Background from 'content/background';
 import LoaderAnimation from 'content/loaderGif';
 import { checkCode } from 'lib/utils';
 
-import {
-    logIn,
-    logOut,
-    getRandomPhoto,
-    randomMouseOver,
-    randomMouseOut,
-    listPhotos,
-    continueLogIn,
-} from "core/actions";
+// import {
+//     getRandomPhoto,
+//     randomMouseOver,
+//     randomMouseOut,
+//     listPhotos,
+// } from "core/actions";
+import { getRandomPhoto, randomMouseOver, randomMouseOut } from "core/actionRandomPhoto";
+import { logIn, continueLogIn, logOut } from 'core/actionUser';
+import { listPhotos } from 'core/actionListPhotos.js';
 
 // /!q@q$q&q*q(q)q-q=q:q
 
 let App = (props) => {
-    console.log(props);
+    // console.log(props);
     const {
         onLogIn,
         onLogOut,
@@ -46,7 +46,7 @@ let App = (props) => {
         setCurrentPath(pathname);
         setCurrentSearch(search);
         const code = checkCode();
-        if(code) continueLogIn(code, history);
+        if (code) continueLogIn(code, history);
     }, [location.pathname, location.search]);
 
     const propsHeader = {
@@ -62,6 +62,7 @@ let App = (props) => {
         photosGetRandomPhoto,
         onListPhotos,
         photosListPhotos,
+        user,
     }
     const propsBackground = {
         imgUrl: photosGetRandomPhoto.imgUrl,
@@ -100,11 +101,11 @@ const mapDispatchToProps = (dispatch) => {
         continueLogIn: (code, history) => dispatch(continueLogIn(code, history)),
         onLogOut: (history) => dispatch(logOut(history)),
 
-        onGetRandomPhoto: () => dispatch(getRandomPhoto()),
+        onGetRandomPhoto: (user) => dispatch(getRandomPhoto(user)),
         onRandomMouseOver: () => dispatch(randomMouseOver()),
         onRandomMouseOut: () => dispatch(randomMouseOut()),
 
-        onListPhotos: () => dispatch(listPhotos()),
+        onListPhotos: (user) => dispatch(listPhotos(user)),
     };
 };
 

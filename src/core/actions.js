@@ -27,10 +27,6 @@ import {
 
 } from "lib/constants";
 
-
-
-
-
 export const logIn = () => {
     return (dispatch) => {
         dispatch(logInStart());
@@ -118,25 +114,6 @@ export const logOut = (history) => {
     };
 
 };
-
-
-
-
-
-export const authUpdate = (userData) => {
-    return {
-        type: AUTH_UPDATE,
-        userData,
-    };
-};
-
-export const requestSearch = (text, unsplash) => {
-    return {
-        type: REQUEST_SEARCH,
-        text,
-        unsplash,
-    }
-}
 
 export const getRandomPhoto = (unsplash) => {
     return dispatch => {

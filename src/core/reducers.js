@@ -99,7 +99,6 @@ function user(state, action) {
             newState.isLoggedIn = true;
             newState.state = false;
             newState.jsonProfile = action.json;
-            console.log(newState);
             return newState;
         case LOG_IN_ERROR:
             newState.isLoggedIn = false;

@@ -15,10 +15,12 @@ const Content = (props) => {
         photosGetRandomPhoto,
         onListPhotos,
         photosListPhotos,
+        user,
     } = props;
     const propsHome = {
         onListPhotos,
         photosListPhotos,
+        user,
     }
     const style = !photosGetRandomPhoto.show ? { display: 'block' } : { display: 'none' };
     return (

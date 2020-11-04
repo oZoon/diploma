@@ -2,7 +2,7 @@ import React from 'react';
 
 function History() {
     return (
-        <div>
+        <div className="content-plug">
             <h5>History Page</h5>
         </div>
     )

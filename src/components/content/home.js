@@ -1,6 +1,12 @@
 import React from 'react';
 
-function Home({ onListPhotos, unsplash, photosListPhotos }) {
+function Home(props) {
+    const {
+        onListPhotos,
+        photosListPhotos,
+        user,
+    } = props
+
     let codeListPhotos = null;
     if (photosListPhotos.json.length > 0) {
         codeListPhotos = (
@@ -29,13 +35,13 @@ function Home({ onListPhotos, unsplash, photosListPhotos }) {
     }
 
     return (
-        <div>
+        <div className="content-plug">
             <h5>Home Page</h5>
             <div
                 className="header-static-link"
-                onClick={() => onListPhotos(unsplash)}
+                onClick={() => onListPhotos(user)}
             >
-                загрузить последние 10 изображений
+                загрузить 20 случайных изображений
             </div>
             {codeListPhotos}
         </div>

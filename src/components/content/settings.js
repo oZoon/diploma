@@ -2,7 +2,7 @@ import React from 'react';
 
 function Settings() {
     return (
-        <div>
+        <div className="content-plug">
             <h5>Settings Page</h5>
         </div>
     )

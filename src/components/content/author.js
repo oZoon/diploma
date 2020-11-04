@@ -2,7 +2,7 @@ import React from 'react';
 
 function Author() {
     return (
-        <div>
+        <div className="content-plug">
             <h5>Author Page</h5>
         </div>
     )

@@ -2,7 +2,7 @@ import React from 'react';
 
 function Search() {
     return (
-        <div>
+        <div className="content-plug">
             <h5>Search Page</h5>
         </div>
     )
