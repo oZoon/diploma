@@ -5,7 +5,7 @@ if(hostname != 'localhost'){
 }
 export const URL_SITE = url_site;
 
-export const VERSION = '4.0.7';
+export const VERSION = '4.0.8';
 export const ACCESS_KEY = 'KVx67XvmzAv0NWFzGhl02RT3YJ0kXfNhhffCmc6V2Vk';
 export const SECRET = 'NEbVoZN0xAL1MJkl9GCIfHmud75H71MjACB2fo0UdiU';
 
