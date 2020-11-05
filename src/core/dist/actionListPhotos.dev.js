@@ -5,18 +5,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.listPhotos = void 0;
+exports.nextPageListPhotos = void 0;
 
 var _unsplashJs = _interopRequireWildcard(require("unsplash-js"));
 
 var _constants = require("lib/constants");
 
+var _utils = require("lib/utils");
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var listPhotos = function listPhotos(user) {
-  console.log(user);
+var nextPageListPhotos = function nextPageListPhotos(user, photosListPhotos) {
   return function (dispatch) {
     dispatch(listPhotosStartJsonLoad());
     var unsplash = new _unsplashJs["default"]({
@@ -26,19 +27,17 @@ var listPhotos = function listPhotos(user) {
       bearerToken: user.code
     });
     unsplash.auth.setBearerToken(user.jsonToken.access_token);
-    unsplash.photos // .listPhotos(1, 30, "latest")
-    .getRandomPhoto({
-      count: '20'
-    }).then(_unsplashJs.toJson).then(function (json) {
-      console.log(json);
-      dispatch(listPhotosSuccessJsonLoad(json));
+    var page = photosListPhotos.page + 1;
+    unsplash.photos.listPhotos(page, _constants.LIST_PHOTOS_COUNT, "latest").then(_unsplashJs.toJson).then(function (json) {
+      var sorted = (0, _utils.parseArrInThree)(photosListPhotos.sorted, json);
+      dispatch(listPhotosSuccessJsonLoad(sorted, page));
     })["catch"](function (err) {
       dispatch(listPhotosErrorJsonLoad(err));
     });
   };
 };
 
-exports.listPhotos = listPhotos;
+exports.nextPageListPhotos = nextPageListPhotos;
 
 var listPhotosStartJsonLoad = function listPhotosStartJsonLoad() {
   return {
@@ -46,10 +45,11 @@ var listPhotosStartJsonLoad = function listPhotosStartJsonLoad() {
   };
 };
 
-var listPhotosSuccessJsonLoad = function listPhotosSuccessJsonLoad(json) {
+var listPhotosSuccessJsonLoad = function listPhotosSuccessJsonLoad(sorted, page) {
   return {
     type: _constants.LIST_PHOTOS_SUCCESS_JSON_LOAD,
-    json: json
+    sorted: sorted,
+    page: page
   };
 };
 

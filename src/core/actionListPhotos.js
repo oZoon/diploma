@@ -10,10 +10,11 @@ import {
     LIST_PHOTOS_SUCCESS_LIST_LOAD,
     LIST_PHOTOS_ERROR_LIST_LOAD,
 
+    LIST_PHOTOS_COUNT,
 } from "lib/constants";
+import { parseArrInThree } from 'lib/utils';
 
-export const listPhotos = (user) => {
-    console.log(user);
+export const nextPageListPhotos = (user, photosListPhotos) => {
     return dispatch => {
         dispatch(listPhotosStartJsonLoad());
         const unsplash = new Unsplash({
@@ -23,28 +24,30 @@ export const listPhotos = (user) => {
             bearerToken: user.code,
         });
         unsplash.auth.setBearerToken(user.jsonToken.access_token);
+        const page = photosListPhotos.page + 1;
         unsplash.photos
-            // .listPhotos(1, 30, "latest")
-            .getRandomPhoto({ count: '20' })
+            .listPhotos(page, LIST_PHOTOS_COUNT, "latest")
             .then(toJson)
             .then(json => {
-                console.log(json);
-                dispatch(listPhotosSuccessJsonLoad(json))
+                const sorted = parseArrInThree(photosListPhotos.sorted, json);
+                dispatch(listPhotosSuccessJsonLoad(sorted, page))
             })
             .catch(err => {
                 dispatch(listPhotosErrorJsonLoad(err))
             })
     }
+
 }
 const listPhotosStartJsonLoad = () => {
     return {
         type: LIST_PHOTOS_START_JSON_LOAD,
     }
 }
-const listPhotosSuccessJsonLoad = (json) => {
+const listPhotosSuccessJsonLoad = (sorted, page) => {
     return {
         type: LIST_PHOTOS_SUCCESS_JSON_LOAD,
-        json,
+        sorted,
+        page,
     }
 }
 const listPhotosErrorJsonLoad = (err) => {

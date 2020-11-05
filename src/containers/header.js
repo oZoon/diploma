@@ -5,7 +5,6 @@ import ViewSearch from 'header/search';
 import StaticPages from 'header/staticPages';
 
 const Header = (props) => {
-    // console.log('props in Header: ', props);
     const {
         onLogIn,
         onLogOut,

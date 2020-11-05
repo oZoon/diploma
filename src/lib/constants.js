@@ -5,7 +5,7 @@ if(hostname != 'localhost'){
 }
 export const URL_SITE = url_site;
 
-export const VERSION = '4.0.8';
+export const VERSION = '4.1.0';
 export const ACCESS_KEY = 'KVx67XvmzAv0NWFzGhl02RT3YJ0kXfNhhffCmc6V2Vk';
 export const SECRET = 'NEbVoZN0xAL1MJkl9GCIfHmud75H71MjACB2fo0UdiU';
 
@@ -28,9 +28,12 @@ export const RANDOM_ERROR_PHOTO_LOAD = 'RANDOM_ERROR_PHOTO_LOAD';
 export const RANDOM_SHOW = 'RANDOM_SHOW';
 export const RANDOM_HIDE = 'RANDOM_HIDE';
 
-
 export const LIST_PHOTOS_START_JSON_LOAD = 'LIST_PHOTOS_START_JSON_LOAD';
 export const LIST_PHOTOS_SUCCESS_JSON_LOAD = 'LIST_PHOTOS_SUCCESS_JSON_LOAD';
 export const LIST_PHOTOS_ERROR_JSON_LOAD = 'LIST_PHOTOS_ERROR_JSON_LOAD';
 export const LIST_PHOTOS_SUCCESS_LIST_LOAD = 'LIST_PHOTOS_SUCCESS_LIST_LOAD';
 export const LIST_PHOTOS_ERROR_LIST_LOAD = 'LIST_PHOTOS_ERROR_LIST_LOAD';
+
+export const REST_PAGE_SCROLL = 300;
+export const LIST_PHOTOS_COUNT = 50;
+export const PHOTO_WIDTH = 300;

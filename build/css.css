@@ -19,21 +19,41 @@ body {
     line-height: 0;
 }
 
-.content-column {
+.content-base {
     z-index: 2;
+    display: flex;
     width: 960px;
-    margin: 10px auto;
-
-    column-width: 300px;
-    column-count: 3;
-    column-gap: 30px;
-    /* -webkit-column-width: 300px; */
-    /* -moz-column-width: 300px; */
-    /* -webkit-column-count: 3; */
-    /* -moz-column-count: 3; */
-    /* -webkit-column-gap: 30px; */
-    /* -moz-column-gap: 30px; */
+    margin: 0 auto;
 }
+
+.content-column {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 300px;
+}
+.content-column:not(:nth-child(3n)) {
+    margin-right: 30px;
+}
+
+
+
+/* .content-column { */
+/* z-index: 2; */
+/* width: 960px; */
+/* margin: 10px auto; */
+
+/* column-width: 300px; */
+/* column-count: 3; */
+/* column-gap: 30px; */
+/* -webkit-column-width: 300px; */
+/* -moz-column-width: 300px; */
+/* -webkit-column-count: 3; */
+/* -moz-column-count: 3; */
+/* -webkit-column-gap: 30px; */
+/* -moz-column-gap: 30px; */
+/* } */
 .content-card {
     position: relative;
     width: 300px;
@@ -45,6 +65,7 @@ body {
     border-radius: 6px;
     outline: 2px solid black;
     outline-offset: -2px;
+    background-color: lightgray;
 }
 .card-active-elements {
     position: absolute;

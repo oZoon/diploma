@@ -45,8 +45,26 @@ if (init === null) {
 
     init['photosListPhotos'] = {
         state: false,
-        json: {},
+        json: [],
         error: '',
+        page: 0,
+        sorted: [
+            {
+                height: 0,
+                arrID: [],
+                list: [],
+            },
+            {
+                height: 0,
+                arrID: [],
+                list: [],
+            },
+            {
+                height: 0,
+                arrID: [],
+                list: [],
+            },
+        ]
     };
     init['photosGetPhoto'] = {};
     init['photosGetPhotoStats'] = {};
@@ -81,7 +99,6 @@ if (init === null) {
 }
 
 function user(state, action) {
-    // console.log('state in userReducer: ', state);
     const newState = JSON.parse(JSON.stringify(state));
     switch (action.type) {
         case LOG_IN_START:
@@ -174,7 +191,8 @@ function photosListPhotos(state, action) {
             return newState;
         case LIST_PHOTOS_SUCCESS_JSON_LOAD:
             newState.state = false;
-            newState.json = action.json;
+            newState.sorted = action.sorted;
+            newState.page = action.page;
             newState.error = '';
             return newState;
         case LIST_PHOTOS_ERROR_JSON_LOAD:

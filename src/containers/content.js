@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Home from 'content/home';
 import Diploma from 'content/diploma';
 import Author from 'content/author';
@@ -7,22 +7,34 @@ import Search from 'content/search';
 import SearchHistory from 'content/history';
 import Empty from 'content/empty';
 
+
 import { Route, Switch } from 'react-router-dom';
 
 const Content = (props) => {
-    // console.log('props in Content: ', props);
     const {
         photosGetRandomPhoto,
-        onListPhotos,
         photosListPhotos,
         user,
+        getNextPageListPhotos,
     } = props;
+
+    const style = !photosGetRandomPhoto.show ? { display: 'block' } : { display: 'none' };
+    const [currentScroll, setCurrentScroll] = useState(0);
+    const movedArea = document.body.scrollHeight - document.body.clientHeight;
+    useEffect(() => {
+        window.onscroll = () => {
+            setCurrentScroll(window.pageYOffset)
+        }
+    }, []);
+
     const propsHome = {
-        onListPhotos,
         photosListPhotos,
         user,
+        getNextPageListPhotos,
+        movedArea,
+        currentScroll,
     }
-    const style = !photosGetRandomPhoto.show ? { display: 'block' } : { display: 'none' };
+
     return (
         <div className="content" style={style}>
             <Empty />
@@ -42,8 +54,3 @@ const Content = (props) => {
 };
 
 export default Content;
-
-// бесконечный скролл
-// http://jsfiddle.net/Symphony/mgx8qsgx/
-// https://codesandbox.io/s/w3w89k7x8?file=/src/index.js
-// https://www.npmjs.com/package/react-infinite-scroll-component

@@ -8,20 +8,13 @@ import Background from 'content/background';
 import LoaderAnimation from 'content/loaderGif';
 import { checkCode } from 'lib/utils';
 
-// import {
-//     getRandomPhoto,
-//     randomMouseOver,
-//     randomMouseOut,
-//     listPhotos,
-// } from "core/actions";
 import { getRandomPhoto, randomMouseOver, randomMouseOut } from "core/actionRandomPhoto";
 import { logIn, continueLogIn, logOut } from 'core/actionUser';
-import { listPhotos } from 'core/actionListPhotos.js';
+import { nextPageListPhotos } from 'core/actionListPhotos.js';
 
 // /!q@q$q&q*q(q)q-q=q:q
 
 let App = (props) => {
-    // console.log(props);
     const {
         onLogIn,
         onLogOut,
@@ -35,14 +28,13 @@ let App = (props) => {
         onRandomMouseOut,
         onListPhotos,
         continueLogIn,
+        getNextPageListPhotos,
     } = props;
 
     const [currentPath, setCurrentPath] = useState(location.pathname);
     const [currentSearch, setCurrentSearch] = useState(location.search);
     useEffect(() => {
         const { pathname, search } = location;
-        // console.log("New path: ", pathname);
-        // console.log('new search: ', search);
         setCurrentPath(pathname);
         setCurrentSearch(search);
         const code = checkCode();
@@ -60,9 +52,9 @@ let App = (props) => {
     };
     const propsContent = {
         photosGetRandomPhoto,
-        onListPhotos,
         photosListPhotos,
         user,
+        getNextPageListPhotos,
     }
     const propsBackground = {
         imgUrl: photosGetRandomPhoto.imgUrl,
@@ -85,9 +77,7 @@ let App = (props) => {
         </>
     );
 };
-const mapStateToProps = (state) => {
-    // console.log('state in mapStateToProps: ', state);
-    // console.log('ownProps in mapStateToProps: ', ownProps);
+const mapStateToProps = (state, ownProps) => {
     return {
         user: state.user,
         search: state.search,
@@ -105,8 +95,9 @@ const mapDispatchToProps = (dispatch) => {
         onRandomMouseOver: () => dispatch(randomMouseOver()),
         onRandomMouseOut: () => dispatch(randomMouseOut()),
 
-        onListPhotos: (user) => dispatch(listPhotos(user)),
-    };
+        getNextPageListPhotos: (user, photosListPhotos) => dispatch(nextPageListPhotos(user, photosListPhotos)),
+
+    }
 };
 
 App = connect(mapStateToProps, mapDispatchToProps)(App);

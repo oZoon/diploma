@@ -2,7 +2,6 @@ import React from "react";
 import { SvgSearchButton } from 'header/svgSearchButton';
 
 const ViewSearch = (props) => {
-    // console.log('props in ViewSearch: ', props);
     const {
         user,
         history,
