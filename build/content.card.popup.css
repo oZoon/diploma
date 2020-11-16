@@ -1,0 +1,65 @@
+.card-popup {
+    position: absolute;
+    z-index: 5;
+    bottom: 10px;
+    left: 10px;
+    display: none;
+    width: 278px;
+}
+.card-popup-content {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 110px;
+    cursor: default;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 3px 3px rgba(0,0,0,.8);
+}
+.card-popup-empty {
+    width: 278px;
+    height: 32px;
+    cursor: default;
+}
+.card-popup-links {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0;
+    margin-left: 17px;
+}
+.card-popup-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: #636363;
+    border: 0;
+    font-family: Tahoma;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+}
+.card-popup-link:hover {
+    color: black;
+}
+
+
+.card-popup-follow {
+    margin-left: 30px;
+    padding: 35px 12px;
+    text-decoration: none;
+    color: #636363;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    font-family: Tahoma;
+    font-size: 16px;
+    line-height: 16px;
+}
+.card-popup-follow:hover {
+    color: black;
+    border-color: #858585;
+    background-color: #858585;
+}

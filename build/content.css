@@ -1,0 +1,48 @@
+.content-base {
+    z-index: 2;
+    display: flex;
+    width: 960px;
+    margin: 0 auto;
+}
+.content-base-user {
+    z-index: 2;
+    display: flex;
+    width: 960px;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+.content-column {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 300px;
+}
+.content-column:not(:nth-child(3n)) {
+    margin-right: 30px;
+}
+.content {
+    font-family: Tahoma;
+    font-size: 15px;
+}
+
+.content-empty {
+    display: block;
+    height: 70px;
+}
+
+.content-gif {
+    position: fixed;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+.content-plug {
+    font-family: Tahoma;
+    font-size: 15px;
+}

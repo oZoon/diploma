@@ -11,30 +11,59 @@ var _constants = require("lib/constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var records = new _records["default"]();
-var init = records.getRecord("diploma");
+var init = {};
+init['user'] = {
+  isLoggedIn: false,
+  state: false,
+  jsonToken: {},
+  jsonProfile: {},
+  error: false,
+  code: false
+};
+init['search'] = {
+  searchHistory: [],
+  currentSearchString: false
+}; // init['searchPhotos'] = {};
+// init['searchUsers'] = {};
+// init['searchCollections'] = {};
 
-if (init === null) {
-  init = {};
-  init['user'] = {
-    isLoggedIn: false,
-    state: false,
-    jsonToken: {},
-    jsonProfile: {},
-    error: false,
-    code: false
-  };
-  init['search'] = {
-    searchHistory: [],
-    currentSearchString: false
-  };
-  init['searchPhotos'] = {};
-  init['searchUsers'] = {};
-  init['searchCollections'] = {};
-  init['photosListPhotos'] = {
-    state: false,
-    json: [],
-    error: '',
+init['photosListPhotos'] = {
+  state: false,
+  error: '',
+  page: 0,
+  sorted: [{
+    height: 0,
+    arrID: [],
+    list: []
+  }, {
+    height: 0,
+    arrID: [],
+    list: []
+  }, {
+    height: 0,
+    arrID: [],
+    list: []
+  }]
+}; // init['photosGetPhoto'] = {};
+// init['photosGetPhotoStats'] = {};
+
+init['photosGetRandomPhoto'] = {
+  state: false,
+  json: {},
+  error: '',
+  imgUrl: false,
+  show: false
+}; // init['photosLikePhoto'] = {};
+// init['photosUnlikePhoto'] = {};
+
+init['usersProfile'] = {
+  state: false,
+  profile: {
+    usernames: [],
+    userList: []
+  },
+  statistics: [],
+  photos: {
     page: 0,
     sorted: [{
       height: 0,
@@ -49,33 +78,71 @@ if (init === null) {
       arrID: [],
       list: []
     }]
-  };
-  init['photosGetPhoto'] = {};
-  init['photosGetPhotoStats'] = {};
-  init['photosGetRandomPhoto'] = {
-    state: false,
-    json: {},
-    error: '',
-    imgUrl: false,
-    show: false
-  };
-  init['photosLikePhoto'] = {};
-  init['photosUnlikePhoto'] = {};
-  init['usersProfile'] = {};
-  init['usersStatistics'] = {};
-  init['usersPhotos'] = {};
-  init['usersLikes'] = {};
-  init['usersCollections'] = {};
-  init['collectionsListCollections'] = {};
-  init['collectionsGetCollection'] = {};
-  init['collectionsGetCollectionPhotos'] = {};
-  init['collectionsCreateCollection'] = {};
-  init['collectionsUpdateCollection'] = {};
-  init['collectionsDeleteCollection'] = {};
-  init['collectionsAddPhotoToCollection'] = {};
-  init['collectionsRemovePhotoFromCollection'] = {};
-  init['collectionsListRelatedCollections'] = {};
-  records.setRecord("diploma", init);
+  },
+  likes: [],
+  collections: [],
+  error: ''
+}; // init['collectionsListCollections'] = {};
+// init['collectionsGetCollection'] = {};
+// init['collectionsGetCollectionPhotos'] = {};
+// init['collectionsCreateCollection'] = {};
+// init['collectionsUpdateCollection'] = {};
+// init['collectionsDeleteCollection'] = {};
+// init['collectionsAddPhotoToCollection'] = {};
+// init['collectionsRemovePhotoFromCollection'] = {};
+// init['collectionsListRelatedCollections'] = {};
+
+var records = new _records["default"]();
+var initLocalStorage = records.getRecord("diploma");
+
+if (initLocalStorage !== null) {
+  for (var key in init) {
+    if (initLocalStorage[key]) {
+      init[key] = initLocalStorage[key];
+    }
+  }
+}
+
+records.setRecord("diploma", init);
+
+function usersProfile(state, action) {
+  var newState = JSON.parse(JSON.stringify(state));
+
+  switch (action.type) {
+    case _constants.USER_START_JSON_LOAD:
+      newState.state = true;
+      return newState;
+
+    case _constants.USER_SUCCESS_JSON_LOAD_PROFILE:
+      console.log(action.json);
+      newState.state = false;
+      newState.profile.userList.push(action.json);
+      newState.profile.usernames.push(action.json.username);
+      newState.error = '';
+      return newState;
+
+    case _constants.USER_SUCCESS_JSON_LOAD_PHOTOS:
+      newState.state = false;
+      newState.photos.sorted = action.sorted;
+      newState.photos.page = action.page;
+      newState.error = '';
+      return newState;
+
+    case _constants.USER_SUCCESS_JSON_LOAD:
+      newState.state = false;
+      newState[action.variant].push(action.json);
+      newState.error = '';
+      return newState;
+
+    case _constants.USER_ERROR_JSON_LOAD:
+      newState.state = true;
+      newState.json = {};
+      newState.error = action.err;
+      return newState;
+
+    default:
+      return newState;
+  }
 }
 
 function user(state, action) {
@@ -197,7 +264,6 @@ function photosListPhotos(state, action) {
 
     case _constants.LIST_PHOTOS_ERROR_JSON_LOAD:
       newState.state = false;
-      newState.json = {};
       newState.error = action.err;
       return newState;
 
@@ -213,7 +279,8 @@ function reducers() {
     user: user(state.user, action),
     search: search(state.search, action),
     photosGetRandomPhoto: photosGetRandomPhoto(state.photosGetRandomPhoto, action),
-    photosListPhotos: photosListPhotos(state.photosListPhotos, action)
+    photosListPhotos: photosListPhotos(state.photosListPhotos, action),
+    usersProfile: usersProfile(state.usersProfile, action)
   };
 }
 

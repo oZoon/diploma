@@ -2,44 +2,44 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import Header from "containers/header";
-import Content from "containers/content";
-import Background from 'content/background';
-import LoaderAnimation from 'content/loaderGif';
-import { checkCode } from 'lib/utils';
+import Header from "containers/CNT_header";
+import Content from "containers/CNT_content";
+import Background from 'content/CMC_background';
+import LoaderAnimation from 'content/CMC_loaderGif';
 
-import { getRandomPhoto, randomMouseOver, randomMouseOut } from "core/actionRandomPhoto";
-import { logIn, continueLogIn, logOut } from 'core/actionUser';
-import { nextPageListPhotos } from 'core/actionListPhotos.js';
+import { getRandomPhoto, randomMouseOver, randomMouseOut } from "actions/AC_randomPhoto";
+import { logIn, continueLogIn, logOut } from 'actions/AC_loggedInUser';
+import { nextPageListPhotos } from 'actions/AC_listPhotos';
+import { getUserData } from 'actions/AC_otherUser';
+import { broken } from 'actions/AC_broken';
 
 // /!q@q$q&q*q(q)q-q=q:q
 
 let App = (props) => {
+    console.log(props);
     const {
         onLogIn,
         onLogOut,
         user,
-        location,
         history,
         onGetRandomPhoto,
         photosGetRandomPhoto,
         photosListPhotos,
         onRandomMouseOver,
         onRandomMouseOut,
-        onListPhotos,
         continueLogIn,
         getNextPageListPhotos,
+        getUserData,
+        usersProfile,
+        broken,
     } = props;
 
-    const [currentPath, setCurrentPath] = useState(location.pathname);
-    const [currentSearch, setCurrentSearch] = useState(location.search);
-    useEffect(() => {
-        const { pathname, search } = location;
-        setCurrentPath(pathname);
-        setCurrentSearch(search);
-        const code = checkCode();
-        if (code) continueLogIn(code, history);
-    }, [location.pathname, location.search]);
+    if (!user.isLoggedIn) {
+        useEffect(() => {
+            if (history.location.search.substr(0, 6) == '?code=') continueLogIn(history);
+        }, [history.location.search]);
+    }
+
 
     const propsHeader = {
         onLogIn,
@@ -55,6 +55,10 @@ let App = (props) => {
         photosListPhotos,
         user,
         getNextPageListPhotos,
+        getUserData,
+        history,
+        usersProfile,
+        broken,
     }
     const propsBackground = {
         imgUrl: photosGetRandomPhoto.imgUrl,
@@ -66,6 +70,7 @@ let App = (props) => {
                 user.state,
                 photosGetRandomPhoto.state,
                 photosListPhotos.state,
+                usersProfile.state,
             ]
     }
     return (
@@ -83,6 +88,7 @@ const mapStateToProps = (state, ownProps) => {
         search: state.search,
         photosGetRandomPhoto: state.photosGetRandomPhoto,
         photosListPhotos: state.photosListPhotos,
+        usersProfile: state.usersProfile,
     };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -96,6 +102,9 @@ const mapDispatchToProps = (dispatch) => {
         onRandomMouseOut: () => dispatch(randomMouseOut()),
 
         getNextPageListPhotos: (user, photosListPhotos) => dispatch(nextPageListPhotos(user, photosListPhotos)),
+        getUserData: (history, user, usersProfile) => dispatch(getUserData(history, user, usersProfile)),
+        broken: type => dispatch(broken(type)),
+
 
     }
 };

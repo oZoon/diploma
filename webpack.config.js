@@ -25,15 +25,19 @@ let config = {
                             "alias": {
                                 "core": "./src/core",
                                 "lib": "./src/lib",
-                                "containers": "./src/containers",
-                                "header": "./src/components/header",
-                                "menu": "./src/components/header/menu",
-                                "content": "./src/components/content",
-                                "footer": "./src/components/footer",
+                                "containers": "./src/containers_CNT",
+                                "header": "./src/components/header_CMH",
+                                "menu": "./src/components/header/menu_CMHM",
+                                "content": "./src/components/content_CMC",
+                                "icons": "./src/components/icons_CMI",
+                                "footer": "./src/components/footer_CMF",
+                                "actions": "./src/core/actions_AC",
+                                "reducers": "./src/core/reducers_R",
                                 "test": "./test",
                                 "underscore": "lodash"
                             }
-                        }]
+                        }],
+                        ["@babel/transform-runtime"]
                     ]
                 }
             }

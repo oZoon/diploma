@@ -6,24 +6,27 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
-import reducers from 'core/reducers';
+import reducers from 'core/reducers_R';
 import Records from "lib/records";
 import App from "core/app";
+import { VERSION } from 'lib/constants';
 
 const history = createBrowserHistory();
 const store = createStore(reducers, applyMiddleware(thunk));
 
 const update = () => {
     const records = new Records();
-    records.setRecord("diploma", store.getState());
+    records.setRecord(`diploma${VERSION}`, store.getState());
 }
 store.subscribe(update);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history}>
-            <App />
-        </Router>
+        <React.StrictMode>
+            <Router history={history}>
+                <App />
+            </Router>
+        </React.StrictMode>
     </Provider>,
     document.getElementById("root")
 );
