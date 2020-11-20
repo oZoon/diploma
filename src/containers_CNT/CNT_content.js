@@ -8,7 +8,6 @@ import SearchHistory from 'content/CMC_history';
 import Empty from 'content/CMC_empty';
 import OtherUser from 'content/CMC_otherUser';
 
-
 import { Route, Switch } from 'react-router-dom';
 
 const Content = (props) => {

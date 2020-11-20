@@ -7,9 +7,6 @@ import {
     LIST_PHOTOS_START_JSON_LOAD,
     LIST_PHOTOS_SUCCESS_JSON_LOAD,
     LIST_PHOTOS_ERROR_JSON_LOAD,
-    LIST_PHOTOS_SUCCESS_LIST_LOAD,
-    LIST_PHOTOS_ERROR_LIST_LOAD,
-
     LIST_PHOTOS_COUNT,
 } from "lib/constants";
 import { parseArrInThree } from 'lib/utils';
@@ -29,8 +26,8 @@ export const nextPageListPhotos = (user, photosListPhotos) => {
             .listPhotos(page, LIST_PHOTOS_COUNT, "latest")
             .then(toJson)
             .then(json => {
-                const [ids, sorted] = parseArrInThree(photosListPhotos.ids, photosListPhotos.sorted, json);
-                dispatch(listPhotosSuccessJsonLoad(ids, sorted, page))
+                const [ids, sorted, heightMin] = parseArrInThree(photosListPhotos.ids, photosListPhotos.sorted, json);
+                dispatch(listPhotosSuccessJsonLoad(ids, sorted, page, heightMin))
             })
             .catch(err => {
                 dispatch(listPhotosErrorJsonLoad(err))
@@ -43,12 +40,13 @@ const listPhotosStartJsonLoad = () => {
         type: LIST_PHOTOS_START_JSON_LOAD,
     }
 }
-const listPhotosSuccessJsonLoad = (ids, sorted, page) => {
+const listPhotosSuccessJsonLoad = (ids, sorted, page, heightMin) => {
     return {
         type: LIST_PHOTOS_SUCCESS_JSON_LOAD,
         ids,
         sorted,
         page,
+        heightMin,
     }
 }
 const listPhotosErrorJsonLoad = (err) => {

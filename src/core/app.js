@@ -41,6 +41,18 @@ let App = (props) => {
     }
 
 
+    // const [busy, setBusy] = useState(false);
+    // const [code, setCode] = useState(false);
+
+    // if (!user.isLoggedIn) {
+    //     useEffect(() => {
+    //         if (history.location.search.substr(0, 6) == '?code=') setCode(true);
+    //         if (code) continueLogIn(history);
+    //         // if (history.location.search.substr(0, 6) == '?code=') continueLogIn(history);
+    //     }, [code]);
+    // }
+
+
     const propsHeader = {
         onLogIn,
         onLogOut,

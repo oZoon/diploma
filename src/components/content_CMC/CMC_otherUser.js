@@ -19,53 +19,40 @@ function OtherUser(props) {
         broken,
     } = props;
 
-    const [currentScroll, setCurrentScroll] = useState(0);
     const [request, username] = parseSearchString(history.location.search);
-    const [photosCount, photosShowed] = getCountUserPhotos(usersProfile, username);
-    const heightMin = getHeightMin(usersProfile.photos, username);
-    const movedArea = document.body.scrollHeight - document.body.clientHeight;
 
-    // if(usersProfile.state){
-    //     broken();
-    // }
-
+    // profile
     useEffect(() => {
-        let state = true;
         if (
-            state &&
             request == 'profile' &&
             user.isLoggedIn &&
             !usersProfile.state &&
             !usersProfile.profiles.usernames.includes(username)
-        ) getUserData(history, user);
-        return () => { state = false; }
+        ) getUserData(history, user, usersProfile);
     });
+
+    const [currentScroll, setCurrentScroll] = useState(0);
+    const [heightMin, setHeightMin] = useState(Math.max.apply(null, [500, getHeightMin(usersProfile.photos, username)]));
+    const [whellDelta, setWhellDelta] = useState(0);
+    const [photosCount, photosShowed] = getCountUserPhotos(usersProfile, username);
     useEffect(() => {
-        let state = true;
-        window.onscroll = () => {
-            setCurrentScroll(window.pageYOffset)
-        }
+        window.onscroll = () => setCurrentScroll(window.pageYOffset);
+        window.onwheel = ({ deltaY }) => setWhellDelta(Math.abs(deltaY));
+        setHeightMin(Math.max.apply(null, [500, getHeightMin(usersProfile.photos, username)]));
         if (
-            state &&
             request == 'photos' &&
             user.isLoggedIn &&
             !usersProfile.state &&
             photosShowed < photosCount &&
             (
-                heightMin == 0 ||
-                heightMin != 0 && movedArea - currentScroll * 4 / 3 < 0
+                (heightMin == 500 && currentScroll == 0 && whellDelta == 0) ||
+                (heightMin != 0 && heightMin - (currentScroll + whellDelta * 2) < 0)
             )
         ) {
-            console.log(currentScroll);
+            setHeightMin(heightMin + whellDelta * 8);
             getUserData(history, user, usersProfile);
-            setCurrentScroll(window.pageYOffset);
         }
-        return () => {
-            state = false;
-            setCurrentScroll(window.pageYOffset);
-        }
-    });
-
+    }, [currentScroll]);
 
     // likes
     if (request == 'likes') {
@@ -111,7 +98,7 @@ function OtherUser(props) {
         }
         result = <UserHeader {...propsUserHeader} />
 
-        if (request == 'photos') {
+        if (request == 'photos' || request == 'profile') {
             const propsUserPhotos = {
                 username,
                 photosList: usersProfile.photos,

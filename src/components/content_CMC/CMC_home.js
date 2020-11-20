@@ -9,31 +9,29 @@ function Home(props) {
     } = props;
 
     const [currentScroll, setCurrentScroll] = useState(0);
-    const heightMin = Math.min(photosListPhotos.sorted[0].height, photosListPhotos.sorted[1].height, photosListPhotos.sorted[2].height);
-    const movedArea = document.body.scrollHeight - document.body.clientHeight;
+    const [heightMin, setHeightMin] = useState(Math.max.apply(null, [500, photosListPhotos.heightMin]));
+    const [whellDelta, setWhellDelta] = useState(0);
 
     useEffect(() => {
-        let state = true;
         window.onscroll = () => {
             setCurrentScroll(window.pageYOffset)
         }
+        window.onwheel = ({ deltaY }) => {
+            setWhellDelta(Math.abs(deltaY));
+        }
+        setHeightMin(Math.max.apply(null, [500, photosListPhotos.heightMin]));
         if (
-            state &&
             user.isLoggedIn &&
             !photosListPhotos.state &&
             (
-                heightMin == 0 ||
-                heightMin != 0 && movedArea - currentScroll * 4 / 3 < 0
+                (heightMin == 500 && currentScroll == 0 && whellDelta == 0) ||
+                (heightMin != 0 && heightMin - (currentScroll + whellDelta * 2) < 0)
             )
         ) {
+            setHeightMin(heightMin + whellDelta * 8);
             getNextPageListPhotos(user, photosListPhotos);
-            setCurrentScroll(window.pageYOffset);
         }
-        return () => {
-            state = false;
-            setCurrentScroll(window.pageYOffset);
-        }
-    });
+    }, [currentScroll, user.isLoggedIn]);
 
     let codeListPhotos = null;
     if (user.isLoggedIn) {

@@ -2,8 +2,6 @@ import {
     LIST_PHOTOS_START_JSON_LOAD,
     LIST_PHOTOS_SUCCESS_JSON_LOAD,
     LIST_PHOTOS_ERROR_JSON_LOAD,
-    LIST_PHOTOS_SUCCESS_LIST_LOAD,
-    LIST_PHOTOS_ERROR_LIST_LOAD,
 } from "lib/constants";
 
 function photosListPhotos(state, action) {
@@ -13,15 +11,14 @@ function photosListPhotos(state, action) {
             newState.state = true;
             return newState;
         case LIST_PHOTOS_SUCCESS_JSON_LOAD:
-            console.log(action.sorted);
             newState.state = false;
             newState.ids = action.ids;
             newState.sorted = action.sorted;
             newState.page = action.page;
+            newState.heightMin = action.heightMin;
             newState.error = '';
             return newState;
         case LIST_PHOTOS_ERROR_JSON_LOAD:
-            console.log(action);
             newState.state = false;
             newState.error = action.err;
             return newState;

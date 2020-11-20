@@ -38,7 +38,8 @@ export const parseArrInThree = (oldIds, oldSorted, arr) => {
         sorted[index].list.push(item);
         ids.push(item.id);
     });
-    return [ids, sorted];
+    const heightMin = Math.min(sorted[0].height, sorted[1].height, sorted[2].height);
+    return [ids, sorted, heightMin];
 }
 
 export const checkUserProfile = (usersProfile, username) => {
@@ -206,7 +207,7 @@ export const getHeightMin = (photosList, username) => {
     let result = 0;
     for (let i = 0; i < photosList.length; i++) {
         if (photosList[i].username == username) {
-            result = Math.min(photosList[i].sorted[0].height, photosList[i].sorted[1].height, photosList[i].sorted[2].height);
+            result = photosList[i].heightMin;
             break;
         }
     }
