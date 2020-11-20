@@ -1,6 +1,6 @@
 {
   "name": "diploma",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "main": "index.js",
   "scripts": {
     "devserv": "webpack-dev-server --mode development",
