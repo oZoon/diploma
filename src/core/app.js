@@ -16,7 +16,7 @@ import { broken } from 'actions/AC_broken';
 // /!q@q$q&q*q(q)q-q=q:q
 
 let App = (props) => {
-    console.log(props);
+    // console.log(props);
     const {
         onLogIn,
         onLogOut,

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
@@ -13,6 +13,9 @@ import { VERSION } from 'lib/constants';
 
 const history = createBrowserHistory();
 const store = createStore(reducers, applyMiddleware(thunk));
+
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const store = createStore(reducers, /* preloadedState, */ composeEnhancers(applyMiddleware(thunk)));
 
 const update = () => {
     const records = new Records();

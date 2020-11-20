@@ -96,17 +96,12 @@ init['usersProfile'] = {
             ]
         }
     ],
-    statistics: [
-        {
-            username: null,
-            statistic: {},
-        }
-    ],
     likes: [
         {
-            username: false,
+            username: null,
             page: 0,
             ids: [],
+            heightMin: 0,
             sorted: [
                 {
                     height: 0,
@@ -121,6 +116,16 @@ init['usersProfile'] = {
                     list: [],
                 },
             ]
+        }
+    ],
+
+
+
+
+    statistics: [
+        {
+            username: null,
+            statistic: {},
         }
     ],
     collections: [

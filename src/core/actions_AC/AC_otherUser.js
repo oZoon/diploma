@@ -7,11 +7,10 @@ import {
     LIST_COLLECTIONS_COUNT,
     USER_START_JSON_LOAD,
     USER_SUCCESS_JSON_LOAD_PROFILE,
-    USER_SUCCESS_JSON_LOAD_PHOTOS,
-    USER_SUCCESS_JSON_LOAD_LIKES,
+    USER_SUCCESS_JSON_LOAD_IMAGES,
     USER_SUCCESS_JSON_LOAD_COLLECTIONS,
     USER_ERROR_JSON_LOAD,
-    CORRECT_USER_PHOTOS_COUNT,
+    CORRECT_USER_IMAGES_COUNT,
 } from "lib/constants";
 import { parseSearchString, findArray, parseArrInThree, findUserCollection, mergeCollection, getCountUserPhotos, getUserIndex } from 'lib/utils';
 
@@ -41,34 +40,20 @@ export const getUserData = (history, user, usersProfile) => {
                         .catch(err => {
                             dispatch(getUserDataError(err))
                         })
-                    getUserDataPhotos(dispatch, usersProfile, username, unsplash);
+                    getUserImages(dispatch, usersProfile, username, unsplash, 'photos');
                     break;
 
                 case 'photos':
                     // console.log('photos');
-                    getUserDataPhotos(dispatch, usersProfile, username, unsplash);
+                    getUserImages(dispatch, usersProfile, username, unsplash, 'photos');
                     break;
 
-                // case 'likes':
-                //     dispatch(getUserDataJsonLoad());
-                //     [item, page, index] = findArray(usersProfile.likes, username);
-                //     page = page + 1;
-                //     unsplash.users.likes(username, page, LIST_PHOTOS_COUNT, 'latest')
-                //         .then(toJson)
-                //         .then(json => {
-                //             const [ids, sorted] = parseArrInThree(item.ids, item.sorted, json);
-                //             const result = {
-                //                 username: username,
-                //                 page: page,
-                //                 ids: ids,
-                //                 sorted: sorted,
-                //             };
-                //             dispatch(getUserDataSuccessJsonLoadLikes(result, index))
-                //         })
-                //         .catch(err => {
-                //             dispatch(getUserDataError(err))
-                //         })
-                //     break;
+                case 'likes':
+                    // console.log('photos');
+                    getUserImages(dispatch, usersProfile, username, unsplash, 'likes');
+                    break;
+
+
                 // case 'collections':
                 //     dispatch(getUserDataJsonLoad());
                 //     [collection, page, index] = findUserCollection(usersProfile.collections, username);
@@ -100,30 +85,22 @@ export const getUserData = (history, user, usersProfile) => {
     }
 }
 
-const getUserDataPhotos = (dispatch, usersProfile, username, unsplash) => {
+const getUserImages = (dispatch, usersProfile, username, unsplash, imageType) => {
     let item, page, index;
     dispatch(getUserDataJsonLoad());
-    // console.log(usersProfile);
-    [item, page, index] = findArray(usersProfile.photos, username);
+    [item, page, index] = findArray(usersProfile[imageType], username);
     page = page + 1;
-    // console.log([item, page, index]);
-    unsplash.users.photos(username, page, LIST_PHOTOS_COUNT, 'latest')
+    unsplashData(unsplash, username, page, imageType)
+        // unsplash.users.photos(username, page, LIST_PHOTOS_COUNT, 'latest')
         .then(toJson)
         .then(json => {
             const jsonNew = JSON.parse(JSON.stringify(json));
-            // console.log(jsonNew);
-            // console.log(Object.keys(jsonNew).length);
-            // Object.keys(jsonNew).length ? console.log('true') : console.log('false');
             if (Object.keys(jsonNew).length == 0) {
-                // console.log('Object.keys(jsonNew).length = 0');
-                const [photosCount, photosShowed] = getCountUserPhotos(usersProfile, username);
-                // console.log([photosCount, photosShowed]);
+                const [imageCount, imageShowed] = getCountImages(usersProfile, username, imageType);
                 const index = getUserIndex(usersProfile, username);
-                // console.log(index);
-                dispatch(correctUserPhotosCount(photosShowed, index));
+                dispatch(correctUserImageCount(imageShowed, index, imageType));
             } else {
                 const [ids, sorted, heightMin] = parseArrInThree(item.ids, item.sorted, json);
-                // console.log([ids, sorted]);
                 const result = {
                     username: username,
                     page: page,
@@ -131,8 +108,7 @@ const getUserDataPhotos = (dispatch, usersProfile, username, unsplash) => {
                     sorted: sorted,
                     heightMin,
                 };
-                // console.log(result);
-                dispatch(getUserDataSuccessJsonLoadPhotos(result, index));
+                dispatch(getUserDataSuccessJsonLoadImages(result, index, imageType));
             }
         })
         .catch(err => {
@@ -140,6 +116,14 @@ const getUserDataPhotos = (dispatch, usersProfile, username, unsplash) => {
         })
 }
 
+const unsplashData = (unsplash, username, page, type) => {
+    switch (type) {
+        case 'photos':
+            return unsplash.users.photos(username, page, LIST_PHOTOS_COUNT, 'latest')
+        case 'likes':
+            return unsplash.users.likes(username, page, LIST_PHOTOS_COUNT, 'latest')
+    }
+}
 
 const getUserDataJsonLoad = () => {
     return {
@@ -152,18 +136,12 @@ const getUserDataSuccessJsonLoadProfile = (json) => {
         json,
     }
 }
-const getUserDataSuccessJsonLoadPhotos = (result, index) => {
+const getUserDataSuccessJsonLoadImages = (result, index, imageType) => {
     return {
-        type: USER_SUCCESS_JSON_LOAD_PHOTOS,
+        type: USER_SUCCESS_JSON_LOAD_IMAGES,
         result,
         index,
-    }
-}
-const getUserDataSuccessJsonLoadLikes = (result, index) => {
-    return {
-        type: USER_SUCCESS_JSON_LOAD_LIKES,
-        result,
-        index,
+        imageType,
     }
 }
 const getUserDataSuccessJsonLoadCollections = (result, index) => {
@@ -179,10 +157,11 @@ const getUserDataError = (err) => {
         err,
     }
 }
-const correctUserPhotosCount = (photosShowed, index) => {
+const correctUserImageCount = (photosShowed, index, imageType) => {
     return {
-        type: CORRECT_USER_PHOTOS_COUNT,
+        type: CORRECT_USER_IMAGES_COUNT,
         photosShowed,
         index,
+        imageType,
     }
 }

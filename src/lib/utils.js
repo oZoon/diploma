@@ -187,11 +187,11 @@ export const getProfileHeader = (userList, username) => {
 }
 
 // CMC_userPhotos
-export const getProfilePhotos = (userList, username) => {
+export const getImageList = (imageList, username) => {
     let result, profile;
-    for (let i = 0; i < userList.length; i++) {
-        if (userList[i].username == username) {
-            profile = userList[i];
+    for (let i = 0; i < imageList.length; i++) {
+        if (imageList[i].username == username) {
+            profile = imageList[i];
             break;
         }
     }
@@ -214,21 +214,23 @@ export const getHeightMin = (photosList, username) => {
     return result;
 }
 
-export const getCountUserPhotos = (usersProfile, username) => {
-    let photosCount = 0,
-        photosShowed = 0;
+// CMC_otherUser, AC_otherUser
+export const getCountImages = (usersProfile, username, type) => {
+    let imageCount = 0,
+        imageShowed = 0;
     for (let i = 0; i < usersProfile.profiles.userList.length; i++) {
         if (usersProfile.profiles.userList[i].username == username) {
-            photosCount = usersProfile.profiles.userList[i].total_photos;
+            imageCount = usersProfile.profiles.userList[i][`total_${type}`];
             break;
         }
     }
-    for (let i = 0; i < usersProfile.photos.length; i++) {
-        if (usersProfile.photos[i].username == username) {
-            photosShowed = usersProfile.photos[i].ids.length;
+    const feed = usersProfile[type];
+    for (let i = 0; i < feed.length; i++) {
+        if (feed[i].username == username) {
+            imageShowed = feed[i].ids.length;
         }
     }
-    return [photosCount, photosShowed];
+    return [imageCount, imageShowed];
 }
 
 export const getUserIndex = (usersProfile, username) => {

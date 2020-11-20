@@ -1,11 +1,11 @@
 import {
     USER_START_JSON_LOAD,
     USER_SUCCESS_JSON_LOAD_PROFILE,
-    USER_SUCCESS_JSON_LOAD_PHOTOS,
-    USER_SUCCESS_JSON_LOAD_LIKES,
-    USER_SUCCESS_JSON_LOAD_COLLECTIONS,
+    USER_SUCCESS_JSON_LOAD_IMAGES,
+    CORRECT_USER_IMAGES_COUNT,
     USER_ERROR_JSON_LOAD,
-    CORRECT_USER_PHOTOS_COUNT,
+
+    USER_SUCCESS_JSON_LOAD_COLLECTIONS,
 } from "lib/constants";
 
 function usersProfile(state, action) {
@@ -22,27 +22,22 @@ function usersProfile(state, action) {
             }
             newState.error = '';
             return newState;
-        case USER_SUCCESS_JSON_LOAD_PHOTOS:
+        case USER_SUCCESS_JSON_LOAD_IMAGES:
             newState.state = false;
-            action.index === null ? newState.photos.push(action.result) : newState.photos.splice(action.index, 1, action.result);
+            action.index === null ? newState[action.imageType].push(action.result) : newState[action.imageType].splice(action.index, 1, action.result);
             newState.error = '';
             return newState;
-        case CORRECT_USER_PHOTOS_COUNT:
+        case CORRECT_USER_IMAGES_COUNT:
             newState.state = false;
-            newState.profiles.userList[action.index].total_photos = action.photosShowed;
+            newState.profiles.userList[action.index][`total_${action.imageType}`] = action.imageShowed;
             return newState;
 
-        case USER_SUCCESS_JSON_LOAD_LIKES:
-            newState.state = false;
-            action.index == 0 ? newState.likes.push(action.result) : newState.likes.splice(action.index, 1, result);
-            newState.error = '';
-            return newState;
-        case USER_SUCCESS_JSON_LOAD_COLLECTIONS:
-            console.log(action);
-            newState.state = false;
-            action.index === null ? newState.collections.push(action.result) : newState.collections.splice(action.index, 1, result);
-            newState.error = '';
-            return newState;
+        // case USER_SUCCESS_JSON_LOAD_COLLECTIONS:
+        //     // console.log(action);
+        //     newState.state = false;
+        //     action.index === null ? newState.collections.push(action.result) : newState.collections.splice(action.index, 1, result);
+        //     newState.error = '';
+        //     return newState;
         case USER_ERROR_JSON_LOAD:
             newState.state = true;
             newState.error = action.err;

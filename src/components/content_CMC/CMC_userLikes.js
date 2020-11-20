@@ -4,15 +4,15 @@ import HomeColumn from 'content/CMC_column';
 
 export default (props) => {
     // console.log(props);
-    const photos = getImageList(props.imageList, props.username);
+    const likes = getImageList(props.imageList, props.username);
 
-    if (photos) {
+    if (likes) {
         return (
             <div className="content-plug">
                 <div className="content-base-user">
-                    <HomeColumn {...photos[0]} />
-                    <HomeColumn {...photos[1]} />
-                    <HomeColumn {...photos[2]} />
+                    <HomeColumn {...likes[0]} />
+                    <HomeColumn {...likes[1]} />
+                    <HomeColumn {...likes[2]} />
                 </div>
             </div>
         )

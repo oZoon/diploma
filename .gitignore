@@ -9,3 +9,4 @@ src/core/dist/
 src/core/reducers_R/dist/
 src/core/actions_AC/dist/
 src/components/content_CMC/dist/
+build/build.js

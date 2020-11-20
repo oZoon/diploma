@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import UserHeader from 'content/CMC_userHeader';
 import UserPhotos from 'content/CMC_userPhotos';
+import UserLikes from 'content/CMC_userLikes';
 import {
     parseSearchString,
-    checkTape,
-    checkUserCollection,
     getHeightMin,
-    getProfilePhotos,
-    getCountUserPhotos,
+    getCountImages,
 } from "lib/utils";
 
 function OtherUser(props) {
@@ -20,6 +18,12 @@ function OtherUser(props) {
     } = props;
 
     const [request, username] = parseSearchString(history.location.search);
+    const [currentScroll, setCurrentScroll] = useState(0);
+    const [whellDelta, setWhellDelta] = useState(0);
+
+    // if (usersProfile.state) {
+    //     broken();
+    // }
 
     // profile
     useEffect(() => {
@@ -31,64 +35,49 @@ function OtherUser(props) {
         ) getUserData(history, user, usersProfile);
     });
 
-    const [currentScroll, setCurrentScroll] = useState(0);
-    const [heightMin, setHeightMin] = useState(Math.max.apply(null, [500, getHeightMin(usersProfile.photos, username)]));
-    const [whellDelta, setWhellDelta] = useState(0);
-    const [photosCount, photosShowed] = getCountUserPhotos(usersProfile, username);
+    // photos
+    const [heightMinPhotosFeed, setHeightMinPhotosFeed] = useState(Math.max.apply(null, [500, getHeightMin(usersProfile.photos, username)]));
+    const [photosCount, photosShowed] = getCountImages(usersProfile, username, 'photos');
+
+    // likes
+    const [heightMinLikesFeed, setHeightMinLikesFeed] = useState(Math.max.apply(null, [500, getHeightMin(usersProfile.likes, username)]));
+    const [likesCount, likesShowed] = getCountImages(usersProfile, username, 'likes');
+
     useEffect(() => {
         window.onscroll = () => setCurrentScroll(window.pageYOffset);
         window.onwheel = ({ deltaY }) => setWhellDelta(Math.abs(deltaY));
-        setHeightMin(Math.max.apply(null, [500, getHeightMin(usersProfile.photos, username)]));
+        setHeightMinPhotosFeed(Math.max.apply(null, [500, getHeightMin(usersProfile.photos, username)]));
+        setHeightMinLikesFeed(Math.max.apply(null, [500, getHeightMin(usersProfile.likes, username)]));
+        // photos
         if (
             request == 'photos' &&
             user.isLoggedIn &&
             !usersProfile.state &&
             photosShowed < photosCount &&
             (
-                (heightMin == 500 && currentScroll == 0 && whellDelta == 0) ||
-                (heightMin != 0 && heightMin - (currentScroll + whellDelta * 2) < 0)
+                (heightMinPhotosFeed == 500 && currentScroll == 0 && whellDelta == 0) ||
+                (heightMinPhotosFeed != 0 && heightMinPhotosFeed - (currentScroll + whellDelta * 2) < 0)
             )
         ) {
-            setHeightMin(heightMin + whellDelta * 8);
+            setHeightMinPhotosFeed(heightMinPhotosFeed + whellDelta * 20);
             getUserData(history, user, usersProfile);
         }
-    }, [currentScroll]);
-
-    // likes
-    if (request == 'likes') {
-        // const [currentScroll, setCurrentScroll] = useState(0);
-        // const movedArea = document.body.scrollHeight - document.body.clientHeight;
-        // useEffect(() => {
-        //     window.onscroll = () => {
-        //         setCurrentScroll(window.pageYOffset)
-        //     }
-        // }, [window.pageYOffset]);
-        // useEffect(() => {
-        //     if (
-        //         user.isLoggedIn &&
-        //         !usersProfile.state &&
-        //         checkTape(usersProfile.likes, movedArea, currentScroll, username)
-        //     ) getUserData(history, user, usersProfile);
-        // });
-    }
-
-    // collection
-    if (request == 'collections') {
-        // if (usersProfile.state) {
-        //     broken();
-        // }
-
-        // useEffect(() => {
-        //     if (
-        //         user.isLoggedIn &&
-        //         !usersProfile.state &&
-        //         !checkUserCollection(usersProfile.collections, username)
-        //     ) {
-        //         console.log('collections triggered');
-        //         getUserData(history, user, usersProfile);
-        //     }
-        // });
-    }
+        // likes
+        if (
+            request == 'likes' &&
+            user.isLoggedIn &&
+            !usersProfile.state &&
+            likesShowed < likesCount &&
+            (
+                (heightMinLikesFeed == 500 && currentScroll == 0 && whellDelta == 0) ||
+                (heightMinLikesFeed != 0 && heightMinLikesFeed - (currentScroll + whellDelta * 2) < 0)
+            )
+        ) {
+            console.log('liked trigger');
+            setHeightMinLikesFeed(heightMinLikesFeed + whellDelta * 20);
+            getUserData(history, user, usersProfile);
+        }
+    }, [currentScroll, request]);
 
     let result = null;
     if (user.isLoggedIn) {
@@ -101,7 +90,7 @@ function OtherUser(props) {
         if (request == 'photos' || request == 'profile') {
             const propsUserPhotos = {
                 username,
-                photosList: usersProfile.photos,
+                imageList: usersProfile.photos,
             }
             result = (
                 <>
@@ -110,22 +99,20 @@ function OtherUser(props) {
                 </>
             )
         }
-
+        if (request == 'likes') {
+            const propsUserLikes = {
+                username,
+                imageList: usersProfile.likes,
+            }
+            result = (
+                <>
+                    {result}
+                    <UserLikes {...propsUserLikes} />
+                </>
+            )
+        }
     }
-
     return result;
-
-
-
-
-
-    // const propsHeader = getProfileHeader(usersProfile, username);
-    // return (
-    //     <UserHeader {...propsHeader} />
-    // )
-
-    // return null;
-
 }
 
 export default OtherUser;
